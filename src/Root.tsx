@@ -11,6 +11,7 @@ import Base from "./pages/Base";
 import Register from "./pages/Register";
 import Image from "./pages/Image";
 import Transaction from "./pages/Transaction";
+import Home from "./pages/Home";
 
 const Root = () => {
   return (
@@ -22,6 +23,7 @@ const Root = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/transaction" element={<Transaction />} />
+          <Route path="/home" element={<Home />} />
           {/* <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<Register />} />
           <Route path="/dashboard" element={<Base />} />
