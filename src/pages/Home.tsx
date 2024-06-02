@@ -4,6 +4,8 @@ import "chart.js/auto";
 import SidebarGroup from "../components/SidebarGroup";
 import NavbarGroup from "../components/NavbarGroup";
 import RowList from "./RowList";
+import { Routes, Route, useNavigate } from "react-router-dom"
+import Report from "../components/Report";
 
 const Home = () => {
   const thisYear = new Date().getFullYear();
@@ -24,6 +26,8 @@ const Home = () => {
     "November",
     "December",
   ]);
+
+  const navigate = useNavigate();
 
   const getDataTransaction = async (year) => {
     try {
@@ -56,13 +60,11 @@ const Home = () => {
         <SidebarGroup />
         <div className="flex-[80%] border-2 h-full">
           <NavbarGroup />
-          <RowList>
-            <p>This is the first item.</p>
-            <p>This is the second item.</p>
-            <p>This is the third item.</p>
-          </RowList>
-          {/* for example change this component base on component when i go to /transaction it will show <Transaction /> elif /dashboard it will show code comment below */}
-          {/* <div className="h-1/2 w-1/2 flex ml-9">
+
+          {/* component konten */}
+
+
+          <div className="h-1/2 w-1/2 flex ml-9">
             <Line
               className=""
               data={{
@@ -86,7 +88,9 @@ const Home = () => {
                 onChange={(e) => setYear(e.target.value)}
               />
             </div>
-          </div> */}
+          </div>
+
+          {/* component konten */}
         </div>
       </div>
     </div>

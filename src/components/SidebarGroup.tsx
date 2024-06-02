@@ -1,11 +1,12 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const SidebarGroup = () => {
   return (
     <div className="flex-[20%] border-2 flex flex-col gap-y-12 px-12">
       <p>logo</p>
       <div className="flex flex-col justify-center gap-y-10">
-        <div className="flex gap-x-6">
+        <NavLink to="sa" className="flex gap-x-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -22,7 +23,7 @@ const SidebarGroup = () => {
             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
           </svg>
           <p>Dashboard</p>
-        </div>
+        </NavLink>
         <div className="flex gap-x-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
