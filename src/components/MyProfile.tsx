@@ -1,9 +1,9 @@
-import React from "react";
 import chad from "/public/chad.png";
 import useDateDay from "../hooks/useDateDay";
 
 const MyProfile = () => {
-  const { leftComponentClicked, rightComponentClicked } = useDateDay();
+  // const { leftComponentClicked, rightComponentClicked } = useDateDay();
+  const { leftComponentClicked } = useDateDay();
 
   return (
     <div className="py-7 px-11 font-poppins w-full">

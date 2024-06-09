@@ -1,19 +1,16 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Sidebar from "../components/Sidebar";
-import Calendar from "../components/Calendar";
-import { CalendarProvider } from "../context/CalendarContext";
-import NavbarCalendar from "../components/NavbarCalendar";
-import MyProfile from "../components/MyProfile";
+// import NavbarCalendar from "../components/NavbarCalendar.tsx";
 import useDateDay from "../hooks/useDateDay";
 import Notification from "../components/Notification";
 
 const Dashboard = () => {
   const { rightComponentClicked, leftComponentClicked } = useDateDay();
-  const year = Number(localStorage.getItem("year"));
-  const month = Number(localStorage.getItem("month"));
+  // const year = Number(localStorage.getItem("year"));
+  // const month = Number(localStorage.getItem("month"));
 
-  const [getYear, setYear] = useState(year);
-  const [getMonth, setMonth] = useState(month);
+  // const [getYear, setYear] = useState(year);
+  // const [getMonth, setMonth] = useState(month);
 
   // bg-[#444444] relative z-10
   
@@ -24,9 +21,8 @@ const Dashboard = () => {
         {/* <CalendarProvider> */}
         <>
           <div className={`${!leftComponentClicked ? `w-[72%]` : ""}`}>
-            <NavbarCalendar />
+            {/* <NavbarCalendar /> */}
 
-            <Calendar />
 
             {/* <MyProfile /> */}
           </div>

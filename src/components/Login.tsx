@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useAuth } from "../context/authContext";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useAuth } from "../context/AuthContext.tsx";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -10,14 +10,14 @@ const Login = () => {
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setData({
       ...data,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password } = data;
 

@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+
+interface ImageData {
+  image_url: string;
+  prediction: string;
+  price: number;
+}
 
 const ImageComponent = () => {
-  const [images, setImages] = useState([]);
-  const [finished, setFinished] = useState(false);
+  const [images, setImages] = useState<ImageData[]>([]);
+  const [finished, setFinished] = useState<boolean>(false);
   const baseUrl = "http://localhost:5000";
   const token = localStorage.getItem("token");
-  const [transactionID, setTransactionID] = useState(null);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [transactionID, setTransactionID] = useState<string | null>(null);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     if (!transactionID) return;
@@ -39,9 +45,10 @@ const ImageComponent = () => {
     };
   }, [transactionID, baseUrl]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fileInput = document.querySelector(".file");
+    const fileInput = document.querySelector<HTMLInputElement>(".file");
+    if (!fileInput || !fileInput.files) return;
     const files = fileInput.files;
     const formData = new FormData();
 

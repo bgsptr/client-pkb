@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import SidebarGroup from "../components/SidebarGroup";
 import NavbarGroup from "../components/NavbarGroup";
-import RowList from "./RowList";
-import { Routes, Route, useNavigate } from "react-router-dom"
-import Report from "../components/Report";
+// import RowList from "./RowList";
+// import { Routes, Route, useNavigate } from "react-router-dom"
+// import Report from "../components/Report";
+
+interface TransactionData {
+  month: string;
+  price: number;
+}
 
 const Home = () => {
   const thisYear = new Date().getFullYear();
-  const [token] = useState(localStorage.getItem("token"));
-  const [year, setYear] = useState(thisYear);
-  const [price, setPrice] = useState([]);
-  const [months] = useState([
+  const [token] = useState<string | null>(localStorage.getItem("token"));
+  const [year, setYear] = useState<number>(thisYear);
+  const [price, setPrice] = useState<TransactionData[]>([]);
+  const [months] = useState<string[]>([
     "January",
     "February",
     "March",
@@ -27,9 +32,9 @@ const Home = () => {
     "December",
   ]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const getDataTransaction = async (year) => {
+  const getDataTransaction = async (year: number) => {
     try {
       const url = `http://localhost:5000/paid?year=${year}&role=member`;
       const options = {
@@ -85,7 +90,7 @@ const Home = () => {
                 type="text"
                 id="yearInput"
                 value={year}
-                onChange={(e) => setYear(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setYear(parseInt(e.target.value))}
               />
             </div>
           </div>

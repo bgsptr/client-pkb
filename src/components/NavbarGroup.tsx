@@ -1,5 +1,3 @@
-import React from "react";
-
 const NavbarGroup = () => {
   return (
     <div className="w-full h-[4rem] border-2 flex items-center font-roboto">

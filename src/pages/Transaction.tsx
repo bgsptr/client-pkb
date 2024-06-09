@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 const Transaction = () => {
     const [baseUrl] = useState("http://localhost:5000");
     const [token] = useState(localStorage.getItem("token"));
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(token);
-        const fileInput = document.querySelector('.file');
+        const fileInput = document.querySelector<HTMLInputElement>('.file');
+        if (!fileInput || !fileInput.files) return;
         const files = fileInput.files;
         const formData = new FormData();
 

@@ -1,15 +1,33 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-const AuthContext = createContext();
+interface User {
+  // Define the structure of your user object here
+}
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+interface AuthContextType {
+  user: User | null;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+interface Props {
+  children?: ReactNode;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+export const AuthProvider = ({ children }: Props) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,7 +46,11 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  const login = async (username, password) => {
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
+
+  const login = async (username: string, password: string) => {
     try {
       const response = await axios.post("/api/login", { username, password });
       setUser(response.data);
@@ -46,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const authContextValue = {
+  const authContextValue: AuthContextType = {
     user,
     login,
     logout,

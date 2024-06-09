@@ -1,9 +1,13 @@
 // eventContext.js
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
+
+interface Props {
+  children?: ReactNode;
+}
 
 export const EventContext = createContext({});
 
-export const EventProvider = ({ children }) => {
+export const EventProvider = ({ children }: Props) => {
   const [location, setLocation] = useState("");
   const [detailEvent, setDetailEvent] = useState({
     time: 0,

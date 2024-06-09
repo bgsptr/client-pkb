@@ -1,48 +1,43 @@
-import logo from "/public/dashboard/logo-memospace.png";
-
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+// import logo from "/public/dashboard/logo-memospace.png";
 import bg from "/public/login/bg-login.png";
-import googleLogo from "/public/login/google.svg";
-import spotifyLogo from "/public/login/spotify.svg";
 import eyeOpen from "/public/login/eye-open.svg";
 import eyeClosed from "/public/login/eye-closed.svg";
-import { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login: React.FC = () => {
   const navigate = useNavigate();
   const [passHide, setPassHide] = useState(false);
-  const [confirmHide, setConfirmHide] = useState(false);
-  const [dataLogin, setDataLogin] = useState({
-    email: "",
-    password: "", 
-  })
+  // const [confirmHide, setConfirmHide] = useState(false);
+  const [dataLogin, setDataLogin] = useState({ email: "", password: "" });
 
-  const passClick = (e) => {
+  // e: MouseEvent<HTMLButtonElement>
+  const passClick = () => {
     setPassHide(!passHide);
   };
 
-  const confirmClick = (e) => {
-    setConfirmHide(!confirmHide);
+  // const confirmClick = (e: MouseEvent<HTMLButtonElement>) => {
+  //   setConfirmHide(!confirmHide);
+  // };
+
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setDataLogin((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleInput = (e) => {
-    setDataLogin(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
-
-  const submitDataLogin = async (e) => {
+  const submitDataLogin = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const baseUrl = "http://localhost:5000/login";
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(dataLogin)
+      body: JSON.stringify(dataLogin),
     };
-  
+
     try {
       const response = await fetch(baseUrl, options);
       if (!response.ok) {
@@ -50,16 +45,16 @@ const Login = () => {
       }
       const data = await response.json();
       console.log(data);
-      localStorage.setItem('token', data.token);
+      localStorage.setItem("token", data.token);
       navigate("/image");
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
     }
   };
-  
+
   useEffect(() => {
     console.log(dataLogin);
-  }, [dataLogin])
+  }, [dataLogin]);
 
   return (
     <div className="h-screen w-full relative font-poppins">
@@ -73,7 +68,7 @@ const Login = () => {
           <div className="bg-[#FFFFFF] w-2/5 mt-[3rem] h-[27rem] rounded-md">
             <div className="mx-20 my-9 flex flex-col gap-y-3">
               <div className="flex flex-col gap-y-1">
-                <label htmlFor="" className="text-[15px]">
+                <label htmlFor="email" className="text-[15px]">
                   Create Email
                 </label>
 
@@ -94,7 +89,7 @@ const Login = () => {
                 {/* component input email */}
               </div>
               <div className="flex flex-col gap-y-1">
-                <label htmlFor="" className="text-[15px]">
+                <label htmlFor="password" className="text-[15px]">
                   Create Password
                 </label>
 
@@ -112,9 +107,9 @@ const Login = () => {
                     </div>
                     <button onClick={passClick} className="items-center">
                       {passHide ? (
-                        <img src={eyeClosed} alt="" />
+                        <img src={eyeClosed} alt="eye closed" />
                       ) : (
-                        <img src={eyeOpen} alt="" />
+                        <img src={eyeOpen} alt="eye open" />
                       )}
                     </button>
                   </div>

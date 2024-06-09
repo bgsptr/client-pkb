@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
   //   // };
   // }, []);
 
-  const inputChange = (e) => {
+  const inputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   }
 
@@ -22,7 +22,7 @@ function App() {
     console.log(username)
   }, [username])
 
-  const click = (e) => {
+  const click = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const evtSrc = new EventSource(`http://localhost:8005/events?username=${username}`);
     evtSrc.onmessage = function (event) {

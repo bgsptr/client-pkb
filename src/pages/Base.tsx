@@ -1,4 +1,3 @@
-import React from 'react'
 import { CalendarProvider } from '../context/CalendarContext'
 import Dashboard from './Dashboard'
 
