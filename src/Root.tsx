@@ -8,7 +8,7 @@ import Register from "./pages/Register";
 import Image from "./pages/Image";
 import Transaction from "./pages/Transaction";
 import Home from "./pages/Home";
-import PrivateRoutes from "./pages/PrivateRoutes";
+// import PrivateRoutes from "./pages/PrivateRoutes";
 
 const Root = () => {
   return (
