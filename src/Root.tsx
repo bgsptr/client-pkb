@@ -16,13 +16,13 @@ const Root = () => {
       <Routes>
         {/* <AuthProvider> */}
         {/* <Route path="/login" element={<Login />} /> */}
-        <Route element={<PrivateRoutes />}>
+        {/* <Route element={<PrivateRoutes />}> */}
           <Route path="/image" element={<Image />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/home" element={<Home />} />
-        </Route>
+        {/* </Route> */}
         {/* <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<Register />} />
           <Route path="/dashboard" element={<Base />} />
