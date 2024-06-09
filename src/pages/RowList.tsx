@@ -1,13 +1,17 @@
-import { Children } from 'react';
+// import { Children, ReactNode } from 'react';
 
-export default function RowList({ children }) {
-  return (
-    <div className="RowList">
-      {Children.map(children, child =>
-        <div className="Row">
-          {child}
-        </div>
-      )}
-    </div>
-  );
-}
+// interface Props {
+//   children?: ReactNode;
+// }
+
+// export default function RowList({ children }: Props) {
+//   return (
+//     <div className="RowList">
+//       {Children.map(children, child =>
+//         <div className="Row">
+//           {child}
+//         </div>
+//       )}
+//     </div>
+//   );
+// }

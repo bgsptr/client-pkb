@@ -1,4 +1,3 @@
-import React from "react";
 import warn from "/public/dashboarddd/warn.svg";
 
 const Notification = () => {
