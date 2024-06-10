@@ -15,7 +15,7 @@ interface TransactionData {
 const Home = () => {
   const thisYear = new Date().getFullYear();
   const [token] = useState<string | null>(localStorage.getItem("token"));
-  const [year, setYear] = useState<number>(thisYear);
+  const [year, setYear] = useState<number | undefined>(thisYear);
   const [price, setPrice] = useState<TransactionData[]>([]);
   const [months] = useState<string[]>([
     "January",
@@ -34,14 +34,17 @@ const Home = () => {
 
   // const navigate = useNavigate();
 
+  const [baseUrl] = useState("https://ddd9-182-253-52-42.ngrok-free.app")
+
   const getDataTransaction = async (year: number) => {
     try {
-      const url = `http://localhost:5000/paid?year=${year}&role=member`;
+      const url = `${baseUrl}/paid?year=${year}&role=member`;
       const options = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "69420"
         },
       };
       const response = await fetch(url, options);
@@ -50,6 +53,19 @@ const Home = () => {
       console.log(data);
     } catch (err) {
       console.error("Error fetching data:", err);
+    }
+  };
+
+  const yearChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    const numericRegex = /^[0-9]*$/;
+
+    if (!numericRegex.test(value)) {
+      setYear(undefined)
+      e.target.value = '';
+    } else {
+      value.length <= 0 ? setYear(undefined) : setYear(parseInt(value));
     }
   };
 
@@ -90,9 +106,19 @@ const Home = () => {
                 type="text"
                 id="yearInput"
                 value={year}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setYear(parseInt(e.target.value))}
+                onChange={yearChange}
               />
             </div>
+            {/* <div className="flex flex-col ml-9">
+              <label htmlFor="cars">Choose a car:</label>
+
+              <select name="cars" id="cars">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+            </div> */}
           </div>
 
           {/* component konten */}

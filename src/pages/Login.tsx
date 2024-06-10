@@ -1,11 +1,11 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 // import logo from "/public/dashboard/logo-memospace.png";
 import bg from "/public/login/bg-login.png";
 import eyeOpen from "/public/login/eye-open.svg";
 import eyeClosed from "/public/login/eye-closed.svg";
 
-const Login: React.FC = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [passHide, setPassHide] = useState(false);
   // const [confirmHide, setConfirmHide] = useState(false);
@@ -27,9 +27,11 @@ const Login: React.FC = () => {
     }));
   };
 
+  const [global_base_url] = useState("https://ddd9-182-253-52-42.ngrok-free.app")
+
   const submitDataLogin = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const baseUrl = "http://localhost:5000/login";
+    const baseUrl = `${global_base_url}/login`;
     const options = {
       method: "POST",
       headers: {
@@ -46,7 +48,7 @@ const Login: React.FC = () => {
       const data = await response.json();
       console.log(data);
       localStorage.setItem("token", data.token);
-      navigate("/image");
+      navigate("/otp");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -126,14 +128,14 @@ const Login: React.FC = () => {
 
               {/* form bawah */}
               <div className="flex flex-col gap-y-3 mt-5">
-                {/* <div className="w-full bg-[#D9D9D9] p-1 flex justify-center rounded-3xl items-center gap-3">
-                  <img src={googleLogo} alt="google-logo" />
+                <div className="w-full bg-[#D9D9D9] p-1 flex justify-center rounded-3xl items-center gap-3">
+                  {/* <img src={googleLogo} alt="google-logo" /> */}
                   <p className="text-sm">Continue with google</p>
                 </div>
                 <div className="w-full bg-[#D9D9D9] p-1 flex justify-center rounded-3xl items-center gap-3">
-                  <img src={spotifyLogo} alt="spotify-logo" />
+                  {/* <img src={spotifyLogo} alt="spotify-logo" /> */}
                   <p className="text-sm">Continue with spotify</p>
-                </div> */}
+                </div>
               </div>
               {/* form bawah */}
             </div>

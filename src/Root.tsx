@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Image from "./pages/Image";
 import Transaction from "./pages/Transaction";
 import Home from "./pages/Home";
+import Otp from "./pages/Otp";
 // import PrivateRoutes from "./pages/PrivateRoutes";
 
 const Root = () => {
@@ -22,6 +23,7 @@ const Root = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/otp" element={<Otp />} />
         {/* </Route> */}
         {/* <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<Register />} />
