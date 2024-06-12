@@ -9,28 +9,35 @@ import Image from "./pages/Image";
 import Transaction from "./pages/Transaction";
 import Home from "./pages/Home";
 import Otp from "./pages/Otp";
+import LandingPage from "./pages/LandingPage";
+import { AuthenticationProvider } from "./context/AuthenticationContext";
+import RoleBasedRoutes from "./components/RoleBasedRoutes";
 // import PrivateRoutes from "./pages/PrivateRoutes";
 
 const Root = () => {
   return (
-    <Suspense>
-      <Routes>
-        {/* <AuthProvider> */}
-        {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route element={<PrivateRoutes />}> */}
-          <Route path="/image" element={<Image />} />
-          <Route path="/register" element={<Register />} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthenticationProvider>
+        <Routes>
+          {/* <Route path="/login" element={<Login />} /> */}
+          {/* <Route element={<PrivateRoutes />}> */}
+          <RoleBasedRoutes allowedRoles={"customer"}>
+            <Route path="/image" element={<Image />} />
+            <Route path="/transaction" element={<Transaction />} />
+            <Route path="/home" element={<Home />} />
+          </RoleBasedRoutes>
+
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/otp" element={<Otp />} />
-        {/* </Route> */}
-        {/* <Route path="/home" element={<LandingPage />} />
+          {/* </Route> */}
+          {/* <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<Register />} />
           <Route path="/dashboard" element={<Base />} />
           <Route path="/register" element={<Login />} /> */}
-        {/* </AuthProvider> */}
-      </Routes>
+        </Routes>
+      </AuthenticationProvider>
     </Suspense>
   );
 };

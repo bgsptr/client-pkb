@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import bg from "/public/login/bg-login.png";
 import eyeOpen from "/public/login/eye-open.svg";
 import eyeClosed from "/public/login/eye-closed.svg";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const { url } = useAuth();
   const navigate = useNavigate();
   const [passHide, setPassHide] = useState(false);
   // const [confirmHide, setConfirmHide] = useState(false);
@@ -20,6 +22,10 @@ const Login = () => {
   //   setConfirmHide(!confirmHide);
   // };
 
+  useEffect(() => {
+    console.log(dataLogin)
+  }, [dataLogin])
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setDataLogin((prev) => ({
       ...prev,
@@ -27,11 +33,9 @@ const Login = () => {
     }));
   };
 
-  const [global_base_url] = useState("https://ddd9-182-253-52-42.ngrok-free.app")
-
   const submitDataLogin = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const baseUrl = `${global_base_url}/login`;
+    const baseUrl = `${url}/login`;
     const options = {
       method: "POST",
       headers: {
@@ -47,7 +51,8 @@ const Login = () => {
       }
       const data = await response.json();
       console.log(data);
-      localStorage.setItem("token", data.token);
+      // localStorage.setItem("token", data.token);
+      localStorage.setItem("email", data.email);
       navigate("/otp");
     } catch (error) {
       console.error("Error during login:", error);

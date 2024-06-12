@@ -3,9 +3,7 @@ import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import SidebarGroup from "../components/SidebarGroup";
 import NavbarGroup from "../components/NavbarGroup";
-// import RowList from "./RowList";
-// import { Routes, Route, useNavigate } from "react-router-dom"
-// import Report from "../components/Report";
+import { useAuth } from "../hooks/useAuth";
 
 interface TransactionData {
   month: string;
@@ -32,13 +30,13 @@ const Home = () => {
     "December",
   ]);
 
-  // const navigate = useNavigate();
+  const { url } = useAuth()
 
-  const [baseUrl] = useState("https://ddd9-182-253-52-42.ngrok-free.app")
+  // const navigate = useNavigate();
 
   const getDataTransaction = async (year: number) => {
     try {
-      const url = `${baseUrl}/paid?year=${year}&role=member`;
+      const baseUrl = `${url}/paid?year=${year}&role=member`;
       const options = {
         method: "GET",
         headers: {
@@ -47,7 +45,7 @@ const Home = () => {
           "ngrok-skip-browser-warning": "69420"
         },
       };
-      const response = await fetch(url, options);
+      const response = await fetch(baseUrl, options);
       const data = await response.json();
       setPrice(data.data);
       console.log(data);
@@ -109,16 +107,6 @@ const Home = () => {
                 onChange={yearChange}
               />
             </div>
-            {/* <div className="flex flex-col ml-9">
-              <label htmlFor="cars">Choose a car:</label>
-
-              <select name="cars" id="cars">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
-              </select>
-            </div> */}
           </div>
 
           {/* component konten */}
