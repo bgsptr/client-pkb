@@ -1,11 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import logo from "/public/dashboard/logo-eco.svg";
 
 const SidebarGroup = () => {
   return (
-    <div className="flex-[20%] border-2 flex flex-col gap-y-12 px-12">
-      <p>logo</p>
-      <div className="flex flex-col justify-center gap-y-10">
-        <NavLink to="sa" className="flex gap-x-6">
+    <div className="flex-[20%] rounded-sm bg-white flex flex-col items-center px-4">
+      <img src={logo} alt="" />
+      <div className="flex flex-col justify-center gap-y-6 w-full">
+        <NavLink to="/home" className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -23,7 +24,7 @@ const SidebarGroup = () => {
           </svg>
           <p>Dashboard</p>
         </NavLink>
-        <div className="flex gap-x-6">
+        <NavLink to="/manage_access" className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -40,9 +41,9 @@ const SidebarGroup = () => {
             <line x1="18" y1="20" x2="18" y2="4"></line>
             <line x1="6" y1="20" x2="6" y2="16"></line>
           </svg>
-          <p>Leaderboard</p>
-        </div>
-        <div className="flex gap-x-6">
+          <p>IAM Role</p>
+        </NavLink>
+        {/* <NavLink to="/transaction" className="flex gap-x-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -61,8 +62,8 @@ const SidebarGroup = () => {
             <line x1="12" y1="22.08" x2="12" y2="12"></line>
           </svg>
           <p>Transaction</p>
-        </div>
-        <div className="flex gap-x-6">
+        </NavLink> */}
+        <NavLink className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -78,8 +79,8 @@ const SidebarGroup = () => {
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
           </svg>
           <p>Sales Report</p>
-        </div>
-        <div className="flex gap-x-6">
+        </NavLink>
+        <NavLink className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -96,8 +97,8 @@ const SidebarGroup = () => {
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
           <p>Settings</p>
-        </div>
-        <div className="flex gap-x-6">
+        </NavLink>
+        <div className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

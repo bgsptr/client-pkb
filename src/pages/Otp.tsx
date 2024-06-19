@@ -28,8 +28,10 @@ const Otp = () => {
       const response = await fetch(url, options);
       const res = await response.json();
       console.log(res);
-      if (res.message === "Login 200 OK") {
+      const { message, token } = res;
+      if (message === "Login 200 OK") {
         console.log("ekseksui")
+        localStorage.setItem('token', token)
         navigate("/home");
       }
       // setOtpConfirmation(res);

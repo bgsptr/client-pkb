@@ -12,6 +12,7 @@ import Otp from "./pages/Otp";
 import LandingPage from "./pages/LandingPage";
 import { AuthenticationProvider } from "./context/AuthenticationContext";
 import RoleBasedRoutes from "./components/RoleBasedRoutes";
+import ManageUser from "./pages/ManageUser";
 // import PrivateRoutes from "./pages/PrivateRoutes";
 
 const Root = () => {
@@ -21,15 +22,22 @@ const Root = () => {
         <Routes>
           {/* <Route path="/login" element={<Login />} /> */}
           {/* <Route element={<PrivateRoutes />}> */}
-          <RoleBasedRoutes allowedRoles={"customer"}>
+          <Route element={<RoleBasedRoutes allowedRoles={["admin"]} />}>
             <Route path="/image" element={<Image />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/home" element={<Home />} />
-          </RoleBasedRoutes>
+            <Route path="/manage_access" element={<ManageUser />} />
+          </Route>
+{/* 
+          <Route element={<RoleBasedRoutes allowedRoles={["member"]} />}> */}
+            <Route path="/" element={<LandingPage />} />
+          {/* </Route> */}
 
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route element={<RoleBasedRoutes allowedRoles={[""]} />}> */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          {/* </Route> */}
+
           <Route path="/otp" element={<Otp />} />
           {/* </Route> */}
           {/* <Route path="/home" element={<LandingPage />} />

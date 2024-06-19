@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 interface ImageData {
   image_url: string;
@@ -7,9 +8,10 @@ interface ImageData {
 }
 
 const ImageComponent = () => {
+  const { url } = useAuth();
   const [images, setImages] = useState<ImageData[]>([]);
   const [finished, setFinished] = useState<boolean>(false);
-  const baseUrl = "http://localhost:5000";
+
   const token = localStorage.getItem("token");
   const [transactionID, setTransactionID] = useState<string | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -17,9 +19,7 @@ const ImageComponent = () => {
   useEffect(() => {
     if (!transactionID) return;
 
-    const eventSource = new EventSource(
-      `${baseUrl}/events/${transactionID}`
-    );
+    const eventSource = new EventSource(`${url}/events/${transactionID}`);
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -43,7 +43,7 @@ const ImageComponent = () => {
     return () => {
       eventSource.close();
     };
-  }, [transactionID, baseUrl]);
+  }, [transactionID, url]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,31 +56,55 @@ const ImageComponent = () => {
       formData.append("file", files[i]);
     }
 
-    fetch(baseUrl + "/uploads", {
+    fetch(url + "/uploads", {
       method: "POST",
       body: formData,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setTransactionID(data.transaction_id);
         setFinished(false);
-        setImages([]);
-        setTotalPrice(0);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   };
 
+  const submitUpdatePrice = (e) => {
+    e.preventDefault();
+
+    if (totalPrice == 0) return 0;
+    const requestUrl = `${url}/transaction/${transactionID}`;
+    const options = {
+      method: "PUT",
+      body: JSON.stringify({"price": totalPrice}),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    fetch(requestUrl, options)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setImages([]);
+        setTotalPrice(0);
+      })
+      .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
     console.log(images);
-    const totalPrice = images.reduce((acc, value) => acc + Number(value.price), 0);
+    const totalPrice = images.reduce(
+      (acc, value) => acc + Number(value.price),
+      0
+    );
     setTotalPrice(totalPrice);
   }, [images]);
-  
 
   return (
     <div className="flex flex-col justify-center content-center items-center gap-y-4">
@@ -91,7 +115,10 @@ const ImageComponent = () => {
       {images.length > 0 && (
         <div className="image-gallery">
           {images.map((item, index) => (
-            <div key={index} className="flex justify-center items-center gap-x-4">
+            <div
+              key={index}
+              className="flex justify-center items-center gap-x-4"
+            >
               <img
                 src={item.image_url}
                 alt={`Prediction: ${item.prediction}`}
@@ -105,6 +132,9 @@ const ImageComponent = () => {
         </div>
       )}
       {finished && <p>{totalPrice}</p>}
+      <button type="submit" onClick={submitUpdatePrice}>
+        Tarik ke wallet
+      </button>
     </div>
   );
 };
