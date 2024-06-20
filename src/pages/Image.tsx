@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
 interface ImageData {
@@ -73,7 +73,7 @@ const ImageComponent = () => {
       });
   };
 
-  const submitUpdatePrice = (e) => {
+  const submitUpdatePrice = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (totalPrice == 0) return 0;

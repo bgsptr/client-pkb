@@ -224,7 +224,8 @@ const ManageUser = () => {
                       <td className="py-2">{user.email}</td>
                       <td className="py-2">{"Administrator"}</td>
                       <td className="py-2 text-green-500">{"Active"}</td>
-                      <td className="py-2">{user.created_at}</td>
+                      {/* <td className="py-2">{user.created_at}</td> */}
+                      <td className="py-2">{"2024-03-01"}</td>
                       <td className="py-2">{user.fname}</td>
                       <td className="py-2">{user.lname}</td>
                       <td className="py-2">

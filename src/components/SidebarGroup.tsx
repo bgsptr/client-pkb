@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "/public/dashboard/logo-eco.svg";
 
 const SidebarGroup = () => {
@@ -63,7 +63,7 @@ const SidebarGroup = () => {
           </svg>
           <p>Transaction</p>
         </NavLink> */}
-        <NavLink className="flex gap-x-6 rounded-lg items-center p-4 h-10">
+        <NavLink to="" className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
