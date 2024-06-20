@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import Otp from "./pages/Otp";
 import LandingPage from "./pages/LandingPage";
 import { AuthenticationProvider } from "./context/AuthenticationContext";
-import RoleBasedRoutes from "./components/RoleBasedRoutes";
+// import RoleBasedRoutes from "./components/RoleBasedRoutes";
 import ManageUser from "./pages/ManageUser";
 // import PrivateRoutes from "./pages/PrivateRoutes";
 
