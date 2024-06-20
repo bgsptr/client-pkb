@@ -22,12 +22,12 @@ const Root = () => {
         <Routes>
           {/* <Route path="/login" element={<Login />} /> */}
           {/* <Route element={<PrivateRoutes />}> */}
-          <Route element={<RoleBasedRoutes allowedRoles={["admin"]} />}>
+          {/* <Route element={<RoleBasedRoutes allowedRoles={["admin"]} />}> */}
             <Route path="/image" element={<Image />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/home" element={<Home />} />
             <Route path="/manage_access" element={<ManageUser />} />
-          </Route>
+          {/* </Route> */}
 {/* 
           <Route element={<RoleBasedRoutes allowedRoles={["member"]} />}> */}
             <Route path="/" element={<LandingPage />} />
