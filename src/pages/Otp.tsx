@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Otp = () => {
   const [otp, setOtp] = useState<string>("");
@@ -13,9 +14,11 @@ const Otp = () => {
     setOtp(value);
   };
 
+  const { url } = useAuth();
+
   const sendOtp = async (): Promise<boolean> => {
     const numberOtp = parseInt(otp);
-    const url = "http://localhost:5000/email/otp";
+    const baseUrl = `${url}/email/otp`
     const options = {
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +28,7 @@ const Otp = () => {
     };
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(baseUrl, options);
       const res = await response.json();
       console.log(res);
       const { message, token } = res;
