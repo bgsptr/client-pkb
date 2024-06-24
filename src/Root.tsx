@@ -28,6 +28,8 @@ const Root = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/manage_access" element={<ManageUser />} />
           {/* </Route> */}
+
+          <Route path="/user" element={<} />
 {/* 
           <Route element={<RoleBasedRoutes allowedRoles={["member"]} />}> */}
             <Route path="/" element={<LandingPage />} />
