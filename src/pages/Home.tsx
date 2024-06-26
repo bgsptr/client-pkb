@@ -14,7 +14,7 @@ import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import NavbarGroup from "../components/NavbarGroup";
 import { useAuth } from "../hooks/useAuth";
-import { useOutletContext } from "react-router-dom";
+// import { useOutletContext } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -31,9 +31,9 @@ interface TransactionData {
   price: number;
 }
 
-interface Role {
-  role: string;
-}
+// interface Role {
+//   role: string;
+// }
 
 // const labels = [
 //   "January",
@@ -51,7 +51,7 @@ interface Role {
 // ];
 
 const Home = () => {
-  const { role } = useOutletContext<Role>();
+  // const { role } = useOutletContext<Role>();
   const thisYear = new Date().getFullYear();
   // const [token] = useState<string | null>(localStorage.getItem("token"));
   const token = localStorage.getItem("token");
@@ -102,19 +102,20 @@ const Home = () => {
 
   const getDataTransaction = async (year: number) => {
     try {
-      const baseUrl = `${url}/paid?year=${year}&role=${role}`;
+      const baseUrl = `${url}/paid?year=${year}&role=admin`;
       const options = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          // "ngrok-skip-browser-warning": "69420"
+          "ngrok-skip-browser-warning": "69420"
         },
       };
       const response = await fetch(baseUrl, options);
       const data = await response.json();
-      setPrice(data.data);
       console.log(data);
+      setPrice(data.data);
+      // console.log(data);
     } catch (err) {
       console.error("Error fetching data:", err);
     }
@@ -139,9 +140,9 @@ const Home = () => {
     }
   }, [year]);
 
-  useEffect(() => {
-    console.log(role);
-  }, [role]);
+  // useEffect(() => {
+  //   console.log(role);
+  // }, [role]);
 
   return (
     <div className="flex bg-gray-100 gap-x-6 p-4 h-screen overflow-y-auto">

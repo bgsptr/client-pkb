@@ -1,12 +1,33 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "/public/dashboard/logo-eco.svg";
+import { MouseEvent, useEffect, useState } from "react";
+
+// interface Role {
+//   role: string;
+// }
 
 const SidebarGroup = () => {
+  const [location, setLocation] = useState<string>('');
+  // const { role } = useOutletContext<Role>();
+  const navigate = useNavigate();
+  const logout = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    localStorage.clear();
+    navigate("/register");
+  }
+
+  useEffect(() => {
+    const currUrl = window.location.href;
+    const data = currUrl.split('/')[3];
+    console.log(data);
+    setLocation(data);
+  }, [])
+
   return (
-    <div className="flex-[20%] rounded-sm bg-white flex flex-col items-center px-4">
+    <div className="flex-[20%] rounded-sm bg-white flex flex-col items-center px-4 h-full">
       <img src={logo} alt="" />
       <div className="flex flex-col justify-center gap-y-6 w-full">
-        <NavLink to="/home" className="flex gap-x-6 rounded-lg items-center p-4 h-10">
+        <NavLink to={ location == "menu" ? "/menu" : "/home"} className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -22,9 +43,9 @@ const SidebarGroup = () => {
             <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
             <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
           </svg>
-          <p>Dashboard</p>
+          <p>{location == "menu" || location == "transaction" ? "Menu" : "Dashboard"}</p>
         </NavLink>
-        <NavLink to="/manage_access" className="flex gap-x-6 rounded-lg items-center p-4 h-10">
+        <NavLink to={location == "menu" || location == "transaction" ? "/transaction" : "/manage_access"} className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -41,7 +62,7 @@ const SidebarGroup = () => {
             <line x1="18" y1="20" x2="18" y2="4"></line>
             <line x1="6" y1="20" x2="6" y2="16"></line>
           </svg>
-          <p>IAM Role</p>
+          <p>{location == "menu" || location == "transaction" ? "Transaction" : "IAM Role"}</p>
         </NavLink>
         {/* <NavLink to="/transaction" className="flex gap-x-6">
           <svg
@@ -98,7 +119,7 @@ const SidebarGroup = () => {
           </svg>
           <p>Settings</p>
         </NavLink>
-        <div className="flex gap-x-6 rounded-lg items-center p-4 h-10">
+        <button onClick={logout} className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -116,7 +137,7 @@ const SidebarGroup = () => {
             <line x1="21" y1="12" x2="9" y2="12"></line>
           </svg>
           <p>Sign Out</p>
-        </div>
+        </button>
       </div>
     </div>
   );

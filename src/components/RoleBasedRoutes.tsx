@@ -13,17 +13,19 @@ interface Data {
 }
 
 const RoleBasedRoutes = ({ allowedRoles }: Props) => {
+  const [guarded, setGuarded] = useState<boolean>(true);
   const location = useLocation();
   const [decoded, setDecoded] = useState<Data | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchToken = async () => {
-      const token = localStorage.getItem("token");
       if (token) {
         try {
           const decodedToken = jwtDecode<Data>(token);
           setDecoded(decodedToken);
+          console.log(decodedToken)
           // console.log("Decoded token role:", decodedToken.role);
           // console.log(allowedRoles)
           setLoading(false);
@@ -39,9 +41,19 @@ const RoleBasedRoutes = ({ allowedRoles }: Props) => {
     fetchToken();
   }, []);
 
+  useEffect(() => {
+    console.log(decoded?.role);
+    const roles: string | undefined = decoded?.role
+    if (!roles) return;
+    const isAllowed = allowedRoles?.includes(roles[0])
+    console.log(isAllowed);
+    setGuarded(isAllowed);
+  }, [decoded])
+
   while (loading) return <div>Loading....</div>; // ganti dengan komponen pada suspense
 
-  return decoded && allowedRoles[0] == decoded?.role ? (
+  // allowedRoles[0] == decoded?.role
+  return decoded && guarded ? (
     // return decoded ? (
     <Outlet context={{ "role": decoded?.role }} />
   ) : allowedRoles[0] != "" ? (

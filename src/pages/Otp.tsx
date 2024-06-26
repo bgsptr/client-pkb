@@ -33,9 +33,25 @@ const Otp = () => {
       console.log(res);
       const { message, token } = res;
       if (message === "Login 200 OK") {
-        console.log("ekseksui")
-        localStorage.setItem('token', token)
-        navigate("/home");
+        console.log("ekseksui");
+        localStorage.setItem('token', token);
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const obj = JSON.parse(jsonPayload);
+        const roles = obj.role;
+        console.log(roles)
+        localStorage.removeItem('email');
+        for (const i in roles) {
+          if (roles[i] == "admin") {
+            navigate("/home");
+          } else {
+            navigate("/menu");
+          }
+        }
       }
       // setOtpConfirmation(res);
     } catch (err) {

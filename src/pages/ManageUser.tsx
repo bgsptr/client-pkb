@@ -98,6 +98,7 @@ const ManageUser = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "69420"
       },
     };
 
@@ -118,6 +119,35 @@ const ManageUser = () => {
       console.error(err);
     }
   }, [url, token]);
+
+  const deleteAdmin = async (e: MouseEvent<HTMLButtonElement>, email: string): Promise<void> => {
+    e.preventDefault();
+    const rep = confirm("Pecat Admin Ini?");
+    if (!rep) return;
+    
+    alert("sudah dipecat");
+    
+    try {
+      const deleteUrl = `${url}/profile/${email}`;
+      const options = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      };
+  
+      const response = await fetch(deleteUrl, options);
+
+      if (response.status !== 200) throw new Error('Status not okay');
+      const data = await response.json();
+      console.log(data);
+
+    } catch(err) {
+      console.log(err);
+    }
+    
+  };
 
   return (
     <div className="flex bg-gray-100 gap-x-6 p-4 h-screen overflow-y-auto">
@@ -233,7 +263,8 @@ const ManageUser = () => {
                         <button className="btn btn-sm btn-outline-primary">
                           ✎
                         </button>
-                        <button className="btn btn-sm btn-outline-danger">🗑</button>
+                        <button className="btn btn-sm btn-outline-danger"
+                        onClick={(e) =>deleteAdmin(e, user.email)}>🗑</button>
                       </td>
                     </tr>
                   ))}

@@ -28,7 +28,8 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
 export const AuthenticationProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   // const [url, setUrl] = useState<string>("http://127.0.0.1:5000");
-  const [url, setUrl] = useState<string>("https://b29a-2400-9800-866-493d-d4ff-edcb-14c4-bd87.ngrok-free.app");
+  const [url, setUrl] = useState<string>("https://eagerly-fine-husky.ngrok-free.app");
+  // const [url, setUrl] = useState<string>("https://cd00-182-253-129-86.ngrok-free.app");
 
   const authenticationContextValue = {
     user,

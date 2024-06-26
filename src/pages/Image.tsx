@@ -1,5 +1,7 @@
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import NavbarGroup from "../components/NavbarGroup";
+import SidebarGroup from "../components/SidebarGroup";
 
 interface ImageData {
   image_url: string;
@@ -7,10 +9,34 @@ interface ImageData {
   price: number;
 }
 
+// support header untuk event source
+// class CustomEventSource {
+//   constructor(url: string, headers: HeadersInit) {
+//     this.eventSource = new EventSource(url);
+//     this.headers = headers;
+//   }
+
+//   eventSource: EventSource;
+//   headers: HeadersInit;
+
+//   onmessage(callback: (event: MessageEvent) => void) {
+//     this.eventSource.onmessage = callback;
+//   }
+
+//   onerror(callback: (event: Event) => void) {
+//     this.eventSource.onerror = callback;
+//   }
+
+//   close() {
+//     this.eventSource.close();
+//   }
+// }
+
 const ImageComponent = () => {
+  const esp_url = "http://192.168.18.130";
   const { url } = useAuth();
   const [images, setImages] = useState<ImageData[]>([]);
-  const [finished, setFinished] = useState<boolean>(false);
+  const [finished] = useState<boolean>(false);
 
   const token = localStorage.getItem("token");
   const [transactionID, setTransactionID] = useState<string | null>(null);
@@ -19,21 +45,28 @@ const ImageComponent = () => {
   useEffect(() => {
     if (!transactionID) return;
 
+    // const headers = {
+    //   "ngrok-skip-browser-warning": "69420",
+    //   "Authorization": `Bearer ${token}`,
+    // };
+
     const eventSource = new EventSource(`${url}/events/${transactionID}`);
 
     eventSource.onmessage = (event) => {
+      console.log(event);
       const data = JSON.parse(event.data);
-      if (data.status === "END") {
-        eventSource.close();
-        setFinished(true);
-        console.log(totalPrice);
+      setImages((prevImages) => [...prevImages, data]);
+      // if (data.status === "END") {
+      //   eventSource.close();
+      //   setFinished(true);
+      //   console.log(totalPrice);
 
-        // fungsi jalanin update transaksi
-        ///////////////////
-        //fungsi jalanin update transaksi
-      } else {
-        setImages((prevImages) => [...prevImages, data]);
-      }
+      //   // fungsi jalanin update transaksi
+      //   ///////////////////
+      //   //fungsi jalanin update transaksi
+      // } else {
+      //   setImages((prevImages) => [...prevImages, data]);
+      // }
     };
 
     eventSource.onerror = () => {
@@ -45,33 +78,37 @@ const ImageComponent = () => {
     };
   }, [transactionID, url]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fileInput = document.querySelector<HTMLInputElement>(".file");
-    if (!fileInput || !fileInput.files) return;
-    const files = fileInput.files;
-    const formData = new FormData();
+  useEffect(() => {
+    console.log(images);
+  }, [images]);
 
-    for (let i = 0; i < files.length; i++) {
-      formData.append("file", files[i]);
-    }
+  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const fileInput = document.querySelector<HTMLInputElement>(".file");
+  //   if (!fileInput || !fileInput.files) return;
+  //   const files = fileInput.files;
+  //   const formData = new FormData();
 
-    fetch(url + "/uploads", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setTransactionID(data.transaction_id);
-        setFinished(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  //   for (let i = 0; i < files.length; i++) {
+  //     formData.append("file", files[i]);
+  //   }
+
+  //   fetch(url + "/uploads", {
+  //     method: "POST",
+  //     body: formData,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setTransactionID(data.transaction_id);
+  //       setFinished(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
   const submitUpdatePrice = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -80,7 +117,7 @@ const ImageComponent = () => {
     const requestUrl = `${url}/transaction/${transactionID}`;
     const options = {
       method: "PUT",
-      body: JSON.stringify({"price": totalPrice}),
+      body: JSON.stringify({ price: totalPrice }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -106,13 +143,56 @@ const ImageComponent = () => {
     setTotalPrice(totalPrice);
   }, [images]);
 
+  useEffect(() => {
+    const beginTransaction = async () => {
+      try {
+        const baseUrl = `${url}/api/transaction/init`;
+        const options = {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+
+        const response = await fetch(baseUrl, options);
+        if (!response.status) throw Error("failed begin transaction");
+        const message = await response.json();
+        console.log(message);
+
+        setTransactionID(message.generateID);
+      } catch(err) {
+        console.error(err);
+      }
+    }
+
+    beginTransaction();
+  }, [])
+
+  useEffect(() => {
+    const sendTokenToESP32CAM = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${esp_url}/api/token`, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: token,
+        });
+        const response = await res.json();
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    sendTokenToESP32CAM();
+  }, []);
+
   return (
-    <div className="flex flex-col justify-center content-center items-center gap-y-4">
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <input type="file" name="file" multiple className="file" />
-        <button type="submit">Submit</button>
-      </form>
-      {images.length > 0 && (
+    <div className="flex bg-gray-100 gap-x-6 p-4 h-screen overflow-y-auto">
+      <SidebarGroup />
+      <div className="flex-[80%] flex flex-col gap-y-4">
+        <NavbarGroup />
+        {images.length > 0 && (
         <div className="image-gallery">
           {images.map((item, index) => (
             <div
@@ -135,6 +215,7 @@ const ImageComponent = () => {
       <button type="submit" onClick={submitUpdatePrice}>
         Tarik ke wallet
       </button>
+      </div>
     </div>
   );
 };
