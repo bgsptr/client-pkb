@@ -27,7 +27,7 @@ const SidebarGroup = () => {
     <div className="flex-[20%] rounded-sm bg-white flex flex-col items-center px-4 h-full">
       <img src={logo} alt="" />
       <div className="flex flex-col justify-center gap-y-6 w-full">
-        <NavLink to={ location == "menu" ? "/menu" : "/home"} className="flex gap-x-6 rounded-lg items-center p-4 h-10">
+        <NavLink to={ location == "menu" || location == "transaction" ? "/menu" : "/home"} className="flex gap-x-6 rounded-lg items-center p-4 h-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
