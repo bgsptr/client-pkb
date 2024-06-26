@@ -33,7 +33,7 @@ interface ImageData {
 // }
 
 const ImageComponent = () => {
-  const esp_url = "https://192.168.18.130";
+  const esp_url = "http://192.168.18.130";
   const { url } = useAuth();
   const [images, setImages] = useState<ImageData[]>([]);
   const [finished] = useState<boolean>(false);
